@@ -16,7 +16,8 @@ namespace CrmPortal.Api.Implementations
 
         public async override Task<string> GetUserIdByLocalAuthenticationContextAsync(LocalAuthenticationContext context, CancellationToken cancellationToken)
         {
-            string hashedPassword = context.Password;
+            if (string.IsNullOrEmpty(context.UserName) || string.IsNullOrEmpty(context.Password))
+                throw new BadRequestException("InvalidUserNameAndOrPassword");
 
             User user = await DbContext.Users.SingleOrDefaultAsync(u => u.UserName.ToLower() == context.UserName.ToLower(), cancellationToken);
 
