@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2003
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrmPortal", "CrmPortal\CrmPortal.csproj", "{404C2CA6-3D57-4C87-887D-1FEE5ABC75CE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{404C2CA6-3D57-4C87-887D-1FEE5ABC75CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{404C2CA6-3D57-4C87-887D-1FEE5ABC75CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{404C2CA6-3D57-4C87-887D-1FEE5ABC75CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{404C2CA6-3D57-4C87-887D-1FEE5ABC75CE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6155581D-831D-4177-B3B6-8029F92C1AFC}
+	EndGlobalSection
+EndGlobal
