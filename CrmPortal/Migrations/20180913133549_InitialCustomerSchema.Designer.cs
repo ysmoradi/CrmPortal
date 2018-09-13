@@ -4,14 +4,16 @@ using CrmPortal.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CrmPortal.Migrations
 {
     [DbContext(typeof(CrmPortalDbContext))]
-    partial class CrmPortalDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180913133549_InitialCustomerSchema")]
+    partial class InitialCustomerSchema
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -19,24 +21,10 @@ namespace CrmPortal.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("CrmPortal.Model.BlackList", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Value");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("BlackLists");
-                });
-
             modelBuilder.Entity("CrmPortal.Model.Customer", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<Guid>("CreatedById");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -52,8 +40,6 @@ namespace CrmPortal.Migrations
                         .HasMaxLength(10);
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CreatedById");
 
                     b.ToTable("Customers");
                 });
@@ -77,14 +63,6 @@ namespace CrmPortal.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("CrmPortal.Model.Customer", b =>
-                {
-                    b.HasOne("CrmPortal.Model.User", "CreatedBy")
-                        .WithMany()
-                        .HasForeignKey("CreatedById")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

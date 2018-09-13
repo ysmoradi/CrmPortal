@@ -4,32 +4,22 @@ using CrmPortal.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CrmPortal.Migrations
 {
     [DbContext(typeof(CrmPortalDbContext))]
-    partial class CrmPortalDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180913134244_Customer_CreatedBy")]
+    partial class Customer_CreatedBy
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.1.3-rtm-32065")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("CrmPortal.Model.BlackList", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Value");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("BlackLists");
-                });
 
             modelBuilder.Entity("CrmPortal.Model.Customer", b =>
                 {
