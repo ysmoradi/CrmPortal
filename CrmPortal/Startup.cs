@@ -1,34 +1,92 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+﻿using Bit.Core;
+using Bit.Core.Contracts;
+using Bit.Core.Implementations;
+using Bit.Core.Models;
+using Bit.Owin.Implementations;
+using Bit.OwinCore;
+using CrmPortal.Api.Implementations;
 using Microsoft.Extensions.DependencyInjection;
+using Swashbuckle.Application;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
 
 namespace CrmPortal
 {
-    public class Startup
+    public class Startup : AutofacAspNetCoreAppStartup
     {
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
-        public void ConfigureServices(IServiceCollection services)
+        public Startup(IServiceProvider serviceProvider)
+            : base(serviceProvider)
         {
+
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public override IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            DefaultAppModulesProvider.Current = new CrmPortalDependencies();
 
-            app.Run(async (context) =>
+            return base.ConfigureServices(services);
+        }
+    }
+
+    public class CrmPortalDependencies : IAppModulesProvider, IAppModule
+    {
+        public IEnumerable<IAppModule> GetAppModules()
+        {
+            yield return this;
+        }
+
+        public virtual void ConfigureDependencies(IServiceCollection services, IDependencyManager dependencyManager)
+        {
+            #region Initial Configuration
+
+            AssemblyContainer.Current.Init();
+            dependencyManager.RegisterMinimalDependencies();
+
+            dependencyManager.RegisterDefaultLogger(typeof(DebugLogStore).GetTypeInfo(), typeof(ConsoleLogStore).GetTypeInfo());
+
+            dependencyManager.RegisterDefaultAspNetCoreApp();
+            dependencyManager.RegisterMinimalAspNetCoreMiddlewares();
+
+            #endregion
+
+            #region Bit Identity Client
+
+            dependencyManager.RegisterAspNetCoreSingleSignOnClient();
+
+            #endregion
+
+            #region Bit Web Api
+
+            dependencyManager.RegisterDefaultWebApiConfiguration();
+
+            dependencyManager.RegisterWebApiMiddleware(webApiDependencyManager =>
             {
-                await context.Response.WriteAsync("Hello World!");
+                webApiDependencyManager.RegisterGlobalWebApiActionFiltersUsing(httpConfiguration =>
+                {
+                    httpConfiguration.Filters.Add(new System.Web.Http.AuthorizeAttribute());
+                });
+
+                webApiDependencyManager.RegisterGlobalWebApiCustomizerUsing(httpConfiguration =>
+                {
+                    httpConfiguration.EnableSwagger(c =>
+                    {
+                        EnvironmentAppInfo appInfo = DefaultAppEnvironmentsProvider.Current.GetActiveAppEnvironment().AppInfo;
+                        c.SingleApiVersion($"v{appInfo.Version}", $"{appInfo.Name}-Api");
+                        c.ApplyDefaultApiConfig(httpConfiguration);
+                    }).EnableBitSwaggerUi();
+                });
+
+                webApiDependencyManager.RegisterWebApiMiddlewareUsingDefaultConfiguration();
             });
+
+            #endregion
+
+            #region Bit IdentityServer
+
+            dependencyManager.RegisterSingleSignOnServer<CrmPortalUserService, CrmPortalClientsProvider>();
+
+            #endregion
         }
     }
 }
