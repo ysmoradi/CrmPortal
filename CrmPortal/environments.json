@@ -11,6 +11,10 @@
       {
         "Key": "IdentityCertificatePassword",
         "Value": "P@ssw0rd"
+      },
+      {
+        "Key": "AppConnectionString",
+        "Value": "Data Source=.;Initial Catalog=CrmPortalDb;Integrated Security=True"
       }
     ]
   }

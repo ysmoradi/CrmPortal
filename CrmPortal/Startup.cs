@@ -5,6 +5,8 @@ using Bit.Core.Models;
 using Bit.Owin.Implementations;
 using Bit.OwinCore;
 using CrmPortal.Api.Implementations;
+using CrmPortal.Data;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.Application;
 using System;
@@ -50,6 +52,8 @@ namespace CrmPortal
 
             #endregion
 
+            AppEnvironment appEnv = DefaultAppEnvironmentsProvider.Current.GetActiveAppEnvironment();
+
             #region Bit Identity Client
 
             dependencyManager.RegisterAspNetCoreSingleSignOnClient();
@@ -71,8 +75,7 @@ namespace CrmPortal
                 {
                     httpConfiguration.EnableSwagger(c =>
                     {
-                        EnvironmentAppInfo appInfo = DefaultAppEnvironmentsProvider.Current.GetActiveAppEnvironment().AppInfo;
-                        c.SingleApiVersion($"v{appInfo.Version}", $"{appInfo.Name}-Api");
+                        c.SingleApiVersion($"v{appEnv.AppInfo.Version}", $"{appEnv.AppInfo.Name}-Api");
                         c.ApplyDefaultApiConfig(httpConfiguration);
                     }).EnableBitSwaggerUi();
                 });
@@ -85,6 +88,14 @@ namespace CrmPortal
             #region Bit IdentityServer
 
             dependencyManager.RegisterSingleSignOnServer<CrmPortalUserService, CrmPortalClientsProvider>();
+
+            #endregion
+
+            #region Entity Framework Core
+
+            services
+                .AddDbContext<CrmPortalDbContext>(config => config.UseSqlServer(appEnv.GetConfig<string>("AppConnectionString")))
+                .AddEntityFrameworkSqlServer();
 
             #endregion
         }
