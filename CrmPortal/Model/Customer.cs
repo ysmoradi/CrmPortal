@@ -26,5 +26,7 @@ namespace CrmPortal.Model
         public User CreatedBy { get; set; }
 
         public Guid CreatedById { get; set; }
+
+        public string PhoneNo { get; set; }
     }
 }

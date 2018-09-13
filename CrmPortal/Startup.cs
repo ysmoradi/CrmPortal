@@ -4,8 +4,11 @@ using Bit.Core.Implementations;
 using Bit.Core.Models;
 using Bit.Owin.Implementations;
 using Bit.OwinCore;
+using CrmPortal.Api.Contracts;
 using CrmPortal.Api.Implementations;
 using CrmPortal.Data;
+using CrmPortal.Data.Contracts;
+using CrmPortal.Data.Implementations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.Application;
@@ -98,6 +101,9 @@ namespace CrmPortal
                 .AddEntityFrameworkSqlServer();
 
             #endregion
+
+            dependencyManager.Register<ISmsService, KaveNegarSmsService>();
+            dependencyManager.Register<ICustomersRepository, CustomersRepository>();
         }
     }
 }
