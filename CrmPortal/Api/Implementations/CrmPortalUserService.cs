@@ -24,7 +24,7 @@ namespace CrmPortal.Api.Implementations
             if (user == null)
                 throw new BadRequestException("InvalidUserNameAndOrPassword");
 
-            if (HashUtility.VerifyHash(context.Password, user.Password))
+            if (!HashUtility.VerifyHash(context.Password, user.Password))
                 throw new BadRequestException("InvalidUserNameAndOrPassword");
 
             return user.Id.ToString();
