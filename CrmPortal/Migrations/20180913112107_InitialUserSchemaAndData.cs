@@ -27,8 +27,8 @@ namespace CrmPortal.Migrations
                 column: "UserName",
                 unique: true);
 
-            migrationBuilder.InsertData(table: "Users", columns: new[] { "Id", "UserName", "Password" }, values: new object[] { Guid.Parse("d8f7d3c9-79d2-46a1-ac38-7d4a8273651d"), "User1", HashUtility.Hash("P@ssword") });
-            migrationBuilder.InsertData(table: "Users", columns: new[] { "Id", "UserName", "Password" }, values: new object[] { Guid.Parse("0d993be2-2539-48ac-97b9-d395ef939ead"), "User2", HashUtility.Hash("P@ssword") });
+            migrationBuilder.InsertData(table: "Users", columns: new[] { "Id", "UserName", "Password" }, values: new object[] { Guid.Parse("d8f7d3c9-79d2-46a1-ac38-7d4a8273651d"), "User1", HashUtility.Hash("P@ssw0rd") });
+            migrationBuilder.InsertData(table: "Users", columns: new[] { "Id", "UserName", "Password" }, values: new object[] { Guid.Parse("0d993be2-2539-48ac-97b9-d395ef939ead"), "User2", HashUtility.Hash("P@ssw0rd") });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
