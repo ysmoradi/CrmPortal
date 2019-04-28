@@ -1,5 +1,5 @@
 ﻿using Bit.Test;
-using Bit.Test.Core.Implementations;
+using Bit.Test.Implementations;
 using CrmPortal.Api;
 using CrmPortal.Api.Contracts;
 using CrmPortal.Data.Contracts;

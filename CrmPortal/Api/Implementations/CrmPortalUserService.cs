@@ -1,4 +1,5 @@
-﻿using Bit.IdentityServer.Implementations;
+﻿using Bit.Core.Contracts;
+using Bit.IdentityServer.Implementations;
 using Bit.Owin.Exceptions;
 using CrmPortal.Data;
 using CrmPortal.Model;
@@ -14,7 +15,7 @@ namespace CrmPortal.Api.Implementations
     {
         public virtual CrmPortalDbContext DbContext { get; set; }
 
-        public async override Task<string> GetUserIdByLocalAuthenticationContextAsync(LocalAuthenticationContext context, CancellationToken cancellationToken)
+        public async override Task<BitJwtToken> LocalLogin(LocalAuthenticationContext context, CancellationToken cancellationToken)
         {
             if (string.IsNullOrEmpty(context.UserName) || string.IsNullOrEmpty(context.Password))
                 throw new BadRequestException("InvalidUserNameAndOrPassword");
@@ -27,12 +28,7 @@ namespace CrmPortal.Api.Implementations
             if (!HashUtility.VerifyHash(context.Password, user.Password))
                 throw new BadRequestException("InvalidUserNameAndOrPassword");
 
-            return user.Id.ToString();
-        }
-
-        public async override Task<bool> UserIsActiveAsync(IsActiveContext context, string userId, CancellationToken cancellationToken)
-        {
-            return true;
+            return new BitJwtToken { UserId = user.Id.ToString() };
         }
     }
 }
