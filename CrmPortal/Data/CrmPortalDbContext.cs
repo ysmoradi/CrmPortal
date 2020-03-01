@@ -9,7 +9,7 @@ namespace CrmPortal.Data
         {
         }
 
-        public CrmPortalDbContext(DbContextOptions options)
+        public CrmPortalDbContext(DbContextOptions<CrmPortalDbContext> options)
             : base(options)
         {
         }
