@@ -18,7 +18,6 @@ namespace CrmPortal.Test
         {
             args = args ?? new TestEnvironmentArgs();
             args.CustomAppModulesProvider = args.CustomAppModulesProvider ?? new CrmPortalDependencies();
-            args.UseAspNetCore = true;
             return args;
         }
 

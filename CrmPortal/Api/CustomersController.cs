@@ -1,5 +1,5 @@
 ﻿using Bit.Core.Contracts;
-using Bit.Owin.Exceptions;
+using Bit.Core.Exceptions;
 using CrmPortal.Api.Contracts;
 using CrmPortal.Data;
 using CrmPortal.Data.Contracts;

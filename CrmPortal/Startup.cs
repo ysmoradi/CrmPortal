@@ -2,8 +2,8 @@
 using Bit.Core.Contracts;
 using Bit.Core.Implementations;
 using Bit.Core.Models;
+using Bit.Owin;
 using Bit.Owin.Implementations;
-using Bit.OwinCore;
 using CrmPortal.Api.Contracts;
 using CrmPortal.Api.Implementations;
 using CrmPortal.Data;

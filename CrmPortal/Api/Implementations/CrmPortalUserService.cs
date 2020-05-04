@@ -1,6 +1,6 @@
-﻿using Bit.Core.Contracts;
+﻿using Bit.Core.Exceptions;
+using Bit.Core.Models;
 using Bit.IdentityServer.Implementations;
-using Bit.Owin.Exceptions;
 using CrmPortal.Data;
 using CrmPortal.Model;
 using CrmPortal.Util;
