@@ -2,6 +2,7 @@
 using Bit.Core.Contracts;
 using Bit.Core.Implementations;
 using Bit.Core.Models;
+using Bit.Hangfire.Implementations;
 using Bit.Owin;
 using Bit.Owin.Implementations;
 using CrmPortal.Api.Contracts;
@@ -9,12 +10,14 @@ using CrmPortal.Api.Implementations;
 using CrmPortal.Data;
 using CrmPortal.Data.Contracts;
 using CrmPortal.Data.Implementations;
+using Hangfire;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.Application;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace CrmPortal
 {
@@ -104,6 +107,62 @@ namespace CrmPortal
 
             dependencyManager.Register<ISmsService, KaveNegarSmsService>();
             dependencyManager.Register<ICustomersRepository, CustomersRepository>();
+
+            dependencyManager.RegisterHangfireBackgroundJobWorkerUsingDefaultConfiguration<JobSchedulerInMemoryBackendConfiguration>();
+
+            dependencyManager.Register(new[] { typeof(IAppEvents).GetTypeInfo(), typeof(SampleJobWhichNeedsInitialization).GetTypeInfo() }, typeof(SampleJobWhichNeedsInitialization).GetTypeInfo());
+            dependencyManager.Register<SampleJobWhichDoesNotNeedInitialization>();
+            dependencyManager.RegisterAppEvents<HangfireJobsConfiguration>();
+        }
+    }
+
+    public class SampleJobWhichNeedsInitialization : IAppEvents
+    {
+        private static /*static is important here!*/ string someThingWhichGetsResolvedDuringInitialization;
+
+        public void OnAppEnd()
+        {
+
+        }
+
+        public void OnAppStartup()
+        {
+            // init async
+            someThingWhichGetsResolvedDuringInitialization = "Test";
+        }
+
+        public IDateTimeProvider DateTimeProvider { get; set; }
+
+        public async Task Do()
+        {
+            Console.WriteLine($"SampleJobWhichNeedsInitialization => {DateTimeProvider.GetCurrentUtcDateTime()} | {someThingWhichGetsResolvedDuringInitialization}");
+        }
+    }
+
+    public class SampleJobWhichDoesNotNeedInitialization
+    {
+        public IDateTimeProvider DateTimeProvider { get; set; }
+
+        public CrmPortalDbContext DbContext { get; set; }
+
+        public async Task Do()
+        {
+            Console.WriteLine($"SampleJobWhichDoesNotNeedInitialization => {DateTimeProvider.GetCurrentUtcDateTime()}");
+        }
+    }
+
+    public class HangfireJobsConfiguration : IAppEvents
+    {
+        public IBackgroundJobWorker BackgroundJobWorker { get; set; }
+
+        public void OnAppStartup()
+        {
+            BackgroundJobWorker.PerformRecurringBackgroundJob<SampleJobWhichNeedsInitialization>("SampleJobWhichNeedsInitialization", job => job.Do(), Cron.Minutely());
+            BackgroundJobWorker.PerformRecurringBackgroundJob<SampleJobWhichDoesNotNeedInitialization>("SampleJobWhichDoesNotNeedInitialization", job => job.Do(), Cron.Minutely());
+        }
+
+        public void OnAppEnd()
+        {
         }
     }
 }
