@@ -7,10 +7,10 @@
 
   <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.0" />
-    <PackageReference Include="Bit.Server.IdentityServer" Version="5.4.0" />
-    <PackageReference Include="Bit.Server.Owin" Version="5.4.0" />
-    <PackageReference Include="Bit.Server.WebApi" Version="5.4.0" />
-    <PackageReference Include="Bit.Tooling.CodeAnalyzer" Version="5.4.0" />
+    <PackageReference Include="Bit.Server.IdentityServer" Version="5.5.0" />
+    <PackageReference Include="Bit.Server.Owin" Version="5.5.0" />
+    <PackageReference Include="Bit.Server.WebApi" Version="5.5.0" />
+    <PackageReference Include="Bit.Tooling.CodeAnalyzer" Version="5.5.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
