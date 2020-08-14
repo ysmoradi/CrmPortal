@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2003
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30330.147
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrmPortal", "CrmPortal\CrmPortal.csproj", "{404C2CA6-3D57-4C87-887D-1FEE5ABC75CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrmPortal.Test", "CrmPortal.Test\CrmPortal.Test.csproj", "{73B5C756-324F-4139-A02B-A20FD8984A71}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrmPortal.Test", "CrmPortal.Test\CrmPortal.Test.csproj", "{73B5C756-324F-4139-A02B-A20FD8984A71}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
