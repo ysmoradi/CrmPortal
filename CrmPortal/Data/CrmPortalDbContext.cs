@@ -1,14 +1,27 @@
-﻿using CrmPortal.Model;
+﻿using Bit.Data.EntityFrameworkCore.Implementations;
+using CrmPortal.Model;
+using CrmPortal.Util;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.Configuration;
 
 namespace CrmPortal.Data
 {
-    public class CrmPortalDbContext : DbContext
+    public class CrmPortalDesignTimeDbContextFactory : IDesignTimeDbContextFactory<CrmPortalDbContext>
     {
-        public CrmPortalDbContext()
-        {
-        }
+        public IConfiguration Configuration { get; set; }
 
+        public CrmPortalDbContext CreateDbContext(string[] args)
+        {
+            Configuration ??= CrmPortalConfigurationProvider.GetConfiguration();
+
+            return new CrmPortalDbContext(new DbContextOptionsBuilder<CrmPortalDbContext>()
+                .UseSqlServer(connectionString: Configuration.GetConnectionString("AppConnectionString")).Options);
+        }
+    }
+
+    public class CrmPortalDbContext : EfCoreDbContextBase
+    {
         public CrmPortalDbContext(DbContextOptions<CrmPortalDbContext> options)
             : base(options)
         {

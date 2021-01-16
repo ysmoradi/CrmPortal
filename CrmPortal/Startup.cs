@@ -1,7 +1,5 @@
 ﻿using Bit.Core;
 using Bit.Core.Contracts;
-using Bit.Core.Implementations;
-using Bit.Core.Models;
 using Bit.Owin;
 using Bit.Owin.Implementations;
 using CrmPortal.Api.Contracts;
@@ -10,11 +8,12 @@ using CrmPortal.Data;
 using CrmPortal.Data.Contracts;
 using CrmPortal.Data.Implementations;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Swashbuckle.Application;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Web.Http;
 
 namespace CrmPortal
 {
@@ -23,7 +22,7 @@ namespace CrmPortal
         public Startup(IServiceProvider serviceProvider)
             : base(serviceProvider)
         {
-
+            AspNetCoreAppEnvironmentsProvider.Current.Init();
         }
 
         public override IServiceProvider ConfigureServices(IServiceCollection services)
@@ -55,8 +54,6 @@ namespace CrmPortal
 
             #endregion
 
-            AppEnvironment appEnv = DefaultAppEnvironmentsProvider.Current.GetActiveAppEnvironment();
-
             #region Bit Identity Client
 
             dependencyManager.RegisterAspNetCoreSingleSignOnClient();
@@ -76,11 +73,7 @@ namespace CrmPortal
 
                 webApiDependencyManager.RegisterGlobalWebApiCustomizerUsing(httpConfiguration =>
                 {
-                    httpConfiguration.EnableSwagger(c =>
-                    {
-                        c.SingleApiVersion($"v{appEnv.AppInfo.Version}", $"{appEnv.AppInfo.Name}-Api");
-                        c.ApplyDefaultApiConfig(httpConfiguration);
-                    }).EnableBitSwaggerUi();
+                    httpConfiguration.EnableMultiVersionWebApiSwaggerWithUI();
                 });
 
                 webApiDependencyManager.RegisterWebApiMiddlewareUsingDefaultConfiguration();
@@ -96,9 +89,8 @@ namespace CrmPortal
 
             #region Entity Framework Core
 
-            services
-                .AddDbContext<CrmPortalDbContext>(config => config.UseSqlServer(appEnv.GetConfig<string>("AppConnectionString")))
-                .AddEntityFrameworkSqlServer();
+            dependencyManager
+                .RegisterEfCoreDbContext<CrmPortalDbContext>((serviceProvider, config) => config.UseSqlServer(serviceProvider.GetRequiredService<IConfiguration>().GetConnectionString("AppConnectionString")));
 
             #endregion
 

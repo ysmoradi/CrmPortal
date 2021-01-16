@@ -1,13 +1,33 @@
-﻿using Bit.Test;
+﻿using Bit.Owin.Implementations;
+using Bit.Test;
+using CrmPortal.Util;
+using FakeItEasy;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
-using System.Text;
 
 namespace CrmPortal.Test
 {
     public class CrmPortalTestEnv : TestEnvironmentBase
     {
+        static CrmPortalTestEnv()
+        {
+            if (!Environment.Is64BitProcess)
+                throw new InvalidOperationException("Please run tests in x64 process");
+
+            Environment.CurrentDirectory = Path.Combine(Environment.CurrentDirectory, "../../../../CrmPortal");
+            AspNetCoreAppEnvironmentsProvider.Current.Configuration = CrmPortalConfigurationProvider.GetConfiguration();
+            IWebHostEnvironment webHostEnv = A.Fake<IWebHostEnvironment>();
+            webHostEnv.EnvironmentName = Environments.Development;
+            Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", Environments.Development);
+            webHostEnv.ApplicationName = "Redemption";
+            AspNetCoreAppEnvironmentsProvider.Current.WebHostEnvironment = webHostEnv;
+            AspNetCoreAppEnvironmentsProvider.Current.Init();
+        }
+
         public CrmPortalTestEnv(TestEnvironmentArgs args = null)
             : base(ApplyArgsDefaults(args))
         {
