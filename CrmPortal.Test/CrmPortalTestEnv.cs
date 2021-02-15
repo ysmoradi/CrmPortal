@@ -23,7 +23,7 @@ namespace CrmPortal.Test
             IWebHostEnvironment webHostEnv = A.Fake<IWebHostEnvironment>();
             webHostEnv.EnvironmentName = Environments.Development;
             Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", Environments.Development);
-            webHostEnv.ApplicationName = "Redemption";
+            webHostEnv.ApplicationName = "CrmPortal";
             AspNetCoreAppEnvironmentsProvider.Current.WebHostEnvironment = webHostEnv;
             AspNetCoreAppEnvironmentsProvider.Current.Init();
         }
