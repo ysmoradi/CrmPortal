@@ -34,7 +34,7 @@ namespace CrmPortal.Test.Api
                 }
             }))
             {
-                var token = await testEnv.Server.Login("User1", "P@ssw0rd", "CrmPortal", "secret");
+                var token = await testEnv.Server.LoginWithCredentials("User1", "P@ssw0rd", "CrmPortal", "secret");
 
                 ICustomersController customersControllerClient = testEnv.Server.BuildRefitClient<ICustomersController>(token);
 
@@ -65,7 +65,7 @@ namespace CrmPortal.Test.Api
         {
             using (CrmPortalTestEnv testEnv = new CrmPortalTestEnv())
             {
-                var token = await testEnv.Server.Login("User1", "P@ssw0rd", "CrmPortal", "secret");
+                var token = await testEnv.Server.LoginWithCredentials("User1", "P@ssw0rd", "CrmPortal", "secret");
 
                 HttpClient httpClient = testEnv.Server.BuildHttpClient(token);
 
@@ -102,7 +102,7 @@ namespace CrmPortal.Test.Api
                 }
             }))
             {
-                var token = await testEnv.Server.Login("User1", "P@ssw0rd", "CrmPortal", "secret");
+                var token = await testEnv.Server.LoginWithCredentials("User1", "P@ssw0rd", "CrmPortal", "secret");
 
                 ICustomersController customersControllerClient = testEnv.Server.BuildRefitClient<ICustomersController>(token);
 
