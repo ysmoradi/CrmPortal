@@ -1,5 +1,8 @@
-﻿using Bit.Owin;
+﻿using Bit.Core;
+using Bit.Owin;
+using Bit.Owin.Implementations;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 using System.Threading.Tasks;
 
 namespace CrmPortal
@@ -8,13 +11,16 @@ namespace CrmPortal
     {
         public static async Task Main(string[] args)
         {
+            AssemblyContainer.Current.Init();
+
+            AspNetCoreAppEnvironmentsProvider.Current.Use();
+
             await CreateWebHostBuilder(args)
                 .Build()
                 .RunAsync();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            BitWebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+        public static IHostBuilder CreateWebHostBuilder(string[] args) =>
+            BitWebHost.CreateWebHost<Startup>(args);
     }
 }

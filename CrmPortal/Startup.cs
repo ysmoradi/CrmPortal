@@ -2,6 +2,7 @@
 using Bit.Core.Contracts;
 using Bit.Owin;
 using Bit.Owin.Implementations;
+using CrmPortal;
 using CrmPortal.Api.Contracts;
 using CrmPortal.Api.Implementations;
 using CrmPortal.Data;
@@ -15,22 +16,13 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Web.Http;
 
+[assembly: AppModule(typeof(CrmPortalDependencies))]
+
 namespace CrmPortal
 {
-    public class Startup : AutofacAspNetCoreAppStartup
+    public class Startup : AspNetCoreAppStartup
     {
-        public Startup(IServiceProvider serviceProvider)
-            : base(serviceProvider)
-        {
-            AspNetCoreAppEnvironmentsProvider.Current.Init();
-        }
 
-        public override IServiceProvider ConfigureServices(IServiceCollection services)
-        {
-            DefaultAppModulesProvider.Current = new CrmPortalDependencies();
-
-            return base.ConfigureServices(services);
-        }
     }
 
     public class CrmPortalDependencies : IAppModulesProvider, IAppModule
@@ -44,7 +36,6 @@ namespace CrmPortal
         {
             #region Initial Configuration
 
-            AssemblyContainer.Current.Init();
             dependencyManager.RegisterMinimalDependencies();
 
             dependencyManager.RegisterDefaultLogger(typeof(DebugLogStore).GetTypeInfo(), typeof(ConsoleLogStore).GetTypeInfo());

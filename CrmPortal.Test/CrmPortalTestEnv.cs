@@ -20,12 +20,13 @@ namespace CrmPortal.Test
 
             Environment.CurrentDirectory = Path.Combine(Environment.CurrentDirectory, "../../../../CrmPortal");
             AspNetCoreAppEnvironmentsProvider.Current.Configuration = CrmPortalConfigurationProvider.GetConfiguration();
-            IWebHostEnvironment webHostEnv = A.Fake<IWebHostEnvironment>();
-            webHostEnv.EnvironmentName = Environments.Development;
+            IHostEnvironment hostEnv = A.Fake<IHostEnvironment>();
+            hostEnv.EnvironmentName = Environments.Development;
             Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", Environments.Development);
-            webHostEnv.ApplicationName = "CrmPortal";
-            AspNetCoreAppEnvironmentsProvider.Current.WebHostEnvironment = webHostEnv;
+            hostEnv.ApplicationName = "CrmPortal";
+            AspNetCoreAppEnvironmentsProvider.Current.HostingEnvironment = hostEnv;
             AspNetCoreAppEnvironmentsProvider.Current.Init();
+            AspNetCoreAppEnvironmentsProvider.Current.Use();
         }
 
         public CrmPortalTestEnv(TestEnvironmentArgs args = null)
