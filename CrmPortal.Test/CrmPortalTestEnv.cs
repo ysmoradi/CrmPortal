@@ -1,4 +1,5 @@
-﻿using Bit.Owin.Implementations;
+﻿using Bit.Core;
+using Bit.Owin.Implementations;
 using Bit.Test;
 using CrmPortal.Util;
 using FakeItEasy;
@@ -18,6 +19,8 @@ namespace CrmPortal.Test
             if (!Environment.Is64BitProcess)
                 throw new InvalidOperationException("Please run tests in x64 process");
 
+            AssemblyContainer.Current.Init();
+            AssemblyContainer.Current.AddAppAssemblies(Assembly.Load("CrmPortal"));
             Environment.CurrentDirectory = Path.Combine(Environment.CurrentDirectory, "../../../../CrmPortal");
             AspNetCoreAppEnvironmentsProvider.Current.Configuration = CrmPortalConfigurationProvider.GetConfiguration();
             IHostEnvironment hostEnv = A.Fake<IHostEnvironment>();
@@ -38,7 +41,6 @@ namespace CrmPortal.Test
         private static TestEnvironmentArgs ApplyArgsDefaults(TestEnvironmentArgs args)
         {
             args = args ?? new TestEnvironmentArgs();
-            args.CustomAppModulesProvider = args.CustomAppModulesProvider ?? new CrmPortalDependencies();
             return args;
         }
 

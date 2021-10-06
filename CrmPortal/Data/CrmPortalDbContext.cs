@@ -41,5 +41,7 @@ namespace CrmPortal.Data
         public virtual DbSet<Customer> Customers { get; set; }
 
         public virtual DbSet<BlackList> BlackLists { get; set; }
+
+        public virtual DbSet<Token> Tokens { get; set; }
     }
 }

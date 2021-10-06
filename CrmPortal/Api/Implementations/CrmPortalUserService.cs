@@ -6,6 +6,7 @@ using CrmPortal.Model;
 using CrmPortal.Util;
 using IdentityServer3.Core.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -28,7 +29,20 @@ namespace CrmPortal.Api.Implementations
             if (!HashUtility.VerifyHash(context.Password, user.Password))
                 throw new BadRequestException("InvalidUserNameAndOrPassword");
 
-            return new BitJwtToken { UserId = user.Id.ToString() };
+            var token = new Model.Token { IP = "", LoggedInDateTime = System.DateTimeOffset.UtcNow, UserId = user.Id };
+
+            DbContext.Set<Model.Token>().Add(token);
+
+            await DbContext.SaveChangesAsync();
+
+            return new BitJwtToken
+            {
+                UserId = user.Id.ToString(),
+                Claims = new Dictionary<string, string> 
+                {
+                    { "TokenId", token.Id.ToString() }
+                }
+            };
         }
     }
 }

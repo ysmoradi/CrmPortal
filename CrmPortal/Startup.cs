@@ -1,5 +1,4 @@
-﻿using Bit.Core;
-using Bit.Core.Contracts;
+﻿using Bit.Core.Contracts;
 using Bit.Owin;
 using Bit.Owin.Implementations;
 using CrmPortal;
@@ -11,8 +10,6 @@ using CrmPortal.Data.Implementations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
 using System.Reflection;
 using System.Web.Http;
 
@@ -25,13 +22,8 @@ namespace CrmPortal
 
     }
 
-    public class CrmPortalDependencies : IAppModulesProvider, IAppModule
+    public class CrmPortalDependencies : IAppModule
     {
-        public IEnumerable<IAppModule> GetAppModules()
-        {
-            yield return this;
-        }
-
         public virtual void ConfigureDependencies(IServiceCollection services, IDependencyManager dependencyManager)
         {
             #region Initial Configuration

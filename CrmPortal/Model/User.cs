@@ -15,5 +15,18 @@ namespace CrmPortal.Model
         [Required]
         [StringLength(250, MinimumLength = 3)]
         public string Password { get; set; }
+
+        public bool IsActive { get; set; }
+    }
+
+    public class Token
+    {
+        public Guid Id { get; set; }
+
+        public Guid UserId { get; set; }
+
+        public DateTimeOffset LoggedInDateTime { get; set; }
+
+        public string IP { get; set; }
     }
 }
