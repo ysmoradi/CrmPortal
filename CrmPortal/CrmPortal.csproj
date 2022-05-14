@@ -6,22 +6,22 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BCrypt.Net-Next" Version="4.0.2" />
-    <PackageReference Include="Bit.Server.Data.EntityFrameworkCore" Version="8.8.0" />
-    <PackageReference Include="Bit.Server.IdentityServer" Version="8.8.0" />
-    <PackageReference Include="Bit.Server.Owin" Version="8.8.0" />
-    <PackageReference Include="Bit.Server.WebApi" Version="8.8.0" />
-    <PackageReference Include="Bit.Tooling.CodeAnalyzer" Version="8.8.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.1">
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+    <PackageReference Include="Bit.Server.Data.EntityFrameworkCore" Version="10.0.0" />
+    <PackageReference Include="Bit.Server.IdentityServer" Version="10.0.0" />
+    <PackageReference Include="Bit.Server.Owin" Version="10.0.0" />
+    <PackageReference Include="Bit.Server.WebApi" Version="10.0.0" />
+    <PackageReference Include="Bit.Tooling.CodeAnalyzer" Version="10.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.1">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Refit" Version="6.1.15" />
+    <PackageReference Include="Refit" Version="6.3.2" />
   </ItemGroup>
 
 </Project>
